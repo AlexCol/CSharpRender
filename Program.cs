@@ -7,6 +7,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options => {
+    options.AddPolicy("AllowAll",
+        policy => policy
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
+
 builder.Configuration
     .SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -14,6 +22,8 @@ builder.Configuration
     .AddEnvironmentVariables();
 
 var app = builder.Build();
+
+app.UseCors("AllowAll"); //! usar cors policy
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment()) {
