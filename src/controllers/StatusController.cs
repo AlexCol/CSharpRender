@@ -9,9 +9,21 @@ namespace CSharpRender.src.controllers;
 [ApiController]
 [Route("api/[controller]")]
 public class StatusController : ControllerBase {
+    private readonly IConfiguration _configuration;
+
+    public StatusController(IConfiguration configuration) {
+        _configuration = configuration;
+    }
+
     [HttpGet]
     public IActionResult GetStatus() {
-        return Ok(new { status = "OK" });
+        var connString = _configuration.GetConnectionString("DefaultConnection");
+        var jwtKey = _configuration["JwtSettings:Secret"];
+        return Ok(new {
+            status = "OK",
+            connString,
+            jwtKey
+        });
     }
 
     [HttpGet("health")]
