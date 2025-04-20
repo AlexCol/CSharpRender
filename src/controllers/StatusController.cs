@@ -19,6 +19,11 @@ public class StatusController : ControllerBase {
     public IActionResult GetStatus() {
         var connString = _configuration.GetConnectionString("DefaultConnection");
         var jwtKey = _configuration["JwtSettings:Secret"];
+
+        var requestDate = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss");
+        var requestIp = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "Unknown IP";
+        Console.WriteLine($"Request received at {requestDate} from {requestIp}");
+
         return Ok(new {
             status = "OK",
             connString,
