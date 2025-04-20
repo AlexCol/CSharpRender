@@ -15,6 +15,11 @@ public class StatusController : ControllerBase {
         _configuration = configuration;
     }
 
+    [HttpHead]
+    public IActionResult Head() {
+        return Ok();
+    }
+
     [HttpGet]
     public IActionResult GetStatus() {
         var connString = _configuration.GetConnectionString("DefaultConnection");
